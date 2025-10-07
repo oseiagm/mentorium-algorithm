@@ -1,7 +1,7 @@
-The bidirectional, score-based round-robin algorithm.
-===========================
-
 A Mentorium thingamajig.
+===========================
+The bidirectional, score-based round-robin algorithm.
+
 
 Features
 --------
