@@ -20,7 +20,7 @@ export async function parseStudentsFromFile(file: File): Promise<ParseResult> {
   const sheetName = workbook.SheetNames[0]
   if (!sheetName) return { students: [], errors: ["No sheets found in file"] }
   const sheet = workbook.Sheets[sheetName]
-  const rows: any[] = xlsx.utils.sheet_to_json(sheet, { defval: "" })
+  const rows = xlsx.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: "" })
 
   const errors: string[] = []
   if (rows.length === 0) {
@@ -28,7 +28,7 @@ export async function parseStudentsFromFile(file: File): Promise<ParseResult> {
   }
 
   // Validate required headers by checking the first row keys
-  const first = rows[0]
+  const first = rows[0] as Record<string, unknown>
   for (const h of REQUIRED_HEADERS) {
     if (!(h in first)) {
       errors.push(`Missing required column: ${h}`)
@@ -37,7 +37,7 @@ export async function parseStudentsFromFile(file: File): Promise<ParseResult> {
 
   const students: Student[] = []
   for (let i = 0; i < rows.length; i++) {
-    const r = rows[i]
+    const r = rows[i] as Record<string, unknown>
     const rowNum = i + 2 // header assumed at row 1
     const studentId = String(r["STUDENTID"]).trim()
     const indexNo = String(r["INDEXNO"]).trim()

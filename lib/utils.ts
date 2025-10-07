@@ -89,7 +89,6 @@ const femaleFirstNames = [
 const maleFirstNames = [
   "Kofi","Yaw","Kwame","Kojo","Kwesi","Kwaku","Kwabena","Paa","Ebo","Nii","Daniel","Francis","Michael","Samuel","Emmanuel","Peter"
 ]
-const ghFirstNames = [...maleFirstNames, ...femaleFirstNames]
 const ghLastNames = [
   "Mensah","Owusu","Boateng","Acheampong","Adjei","Osei","Asante","Appiah","Addo","Ankrah",
   "Nkrumah","Arthur","Annor","Forson","Amoah","Opoku","Agyei","Frimpong","Obeng","Amponsah"
@@ -133,17 +132,7 @@ function randomFemaleName(seed: number) {
   return `${ln}, ${fn}${mn} (Miss)`
 }
 
-function randomName(seed: number) {
-  const ln = ghLastNames[seed % ghLastNames.length]
-  const fn = ghFirstNames[seed % ghFirstNames.length]
-  const isFemale = femaleFirstNames.includes(fn)
-  const hasMiddle = (seed % 4) === 0
-  const pick = hasMiddle
-    ? pickMiddleDifferent(fn, seed + 3, isFemale ? femaleMiddleNames : maleMiddleNames)
-    : null
-  const mn = pick ? ` ${pick}` : ""
-  return `${ln}, ${fn}${mn}${isFemale ? " (Miss)" : ""}`
-}
+// Note: randomName kept previously is unused; removed to satisfy lint rules.
 
 export function generateDemoStudents(count = 36): Student[] {
   const students: Student[] = []
