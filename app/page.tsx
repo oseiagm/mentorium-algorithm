@@ -25,6 +25,7 @@ export default function Home() {
   const [demoPageSize, setDemoPageSize] = useState<number>(10);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [editingCwa, setEditingCwa] = useState<Record<string, string>>({});
 
   const maxLecturers: number | null = students.length > 0 ? students.length : null;
 
@@ -37,9 +38,12 @@ export default function Home() {
   useEffect(() => {
     if (mode === "demo") {
       setStudents(generateDemoStudents(36));
+      // initialize editing values for demo
+      setEditingCwa({});
       setResult(null);
     } else {
       setStudents([]);
+      setEditingCwa({});
       setResult(null);
     }
     setStep("setup");
@@ -68,6 +72,22 @@ export default function Home() {
       console.error(e);
       alert("Invalid configuration. Please check inputs.");
     }
+  }
+
+  // Keep at most two decimals while typing; allow intermediate states like "1." or "".
+  function normalizeCwaInput(raw: string): string {
+    const replaced = raw.replace(",", ".").replace(/[^0-9.]/g, "")
+    if (replaced === "") return ""
+    // Prevent multiple dots
+    const parts = replaced.split(".")
+    const integerPart = parts[0]
+    const decimalPart = parts[1] ?? ""
+    const limitedDecimal = decimalPart.slice(0, 2)
+    const joined = parts.length > 1 ? `${integerPart}.${limitedDecimal}` : integerPart
+    // Cap at 100 but preserve partial input below 100
+    const num = Number(joined)
+    if (Number.isFinite(num) && num > 100) return "100.00"
+    return joined
   }
 
   async function handleFileChange(file?: File | null) {
@@ -164,7 +184,7 @@ export default function Home() {
         {step === "setup" && mode === "demo" && (
           <section className="border rounded p-3 overflow-auto">
             <div className="mb-2 text-sm font-medium flex items-center justify-between">
-              <span>Demo dataset ({students.length} students)</span>
+              <span>Sample data ({students.length} students)</span>
               {students.length > 0 && (
                 <div className="ml-auto flex items-center gap-2 sm:gap-3 flex-wrap justify-end text-right">
                   {(() => {
@@ -247,9 +267,24 @@ export default function Home() {
                             step="0.01"
                             min={0}
                             max={100}
+                            inputMode="decimal"
+                            pattern="^\\d{1,3}([.,]\\d{0,2})?$"
                             className="w-16 sm:w-20 px-1.5 py-1 border rounded text-right text-sm"
-                            value={s.cwa}
-                            onChange={(e) => updateStudentCwa(globalIndex, clampCwa(Number(e.target.value)))}
+                            value={editingCwa[s.studentId] ?? String(s.cwa.toFixed(2))}
+                            onChange={(e) => {
+                              const raw = normalizeCwaInput(e.target.value)
+                              setEditingCwa((prev) => ({ ...prev, [s.studentId]: raw }));
+                              const num = Number(raw.replace(",", "."))
+                              if (Number.isFinite(num)) {
+                                updateStudentCwa(globalIndex, num);
+                              }
+                            }}
+                            onBlur={(e) => {
+                              const num = Number((e.target.value || "0").replace(",", "."))
+                              const clamped = clampCwa(num)
+                              updateStudentCwa(globalIndex, clamped)
+                              setEditingCwa((prev) => ({ ...prev, [s.studentId]: clamped.toFixed(2) }))
+                            }}
                           />
                         </td>
                       </tr>
