@@ -1,7 +1,7 @@
-Mentorium Pairing Algorithm
+The bidirectional, score-based round-robin algorithm.
 ===========================
 
-The bidirectional, score-based round-robin algorithm. A Mentorium thingamajig.
+A Mentorium thingamajig.
 
 Features
 --------
@@ -37,5 +37,5 @@ Excel upload
 Required columns (case sensitive): `STUDENTID`, `INDEXNO`, `NAME`, `CWA`.
 - STUDENTID: 8 digits
 - INDEXNO: 7 digits
-- NAME: e.g., `MENSAH, Ama (Miss)`
+- NAME: e.g., `MENSAH, Ama (Miss)`, `NKRUAMH, Kwame`
 - CWA: 0–100 (two decimals)
