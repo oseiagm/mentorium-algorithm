@@ -166,7 +166,7 @@ export default function Home() {
             <div className="mb-2 text-sm font-medium flex items-center justify-between">
               <span>Demo dataset ({students.length} students)</span>
               {students.length > 0 && (
-                <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                <div className="ml-auto flex items-center gap-2 sm:gap-3 flex-wrap justify-end text-right">
                   {(() => {
                     const totalPages = Math.ceil(students.length / demoPageSize) || 1;
                     const currentPage = Math.min(Math.max(1, demoPage), totalPages);
@@ -194,21 +194,23 @@ export default function Home() {
                           <span className="sm:hidden">→</span>
                           <span className="hidden sm:inline">Next →</span>
                         </button>
-                        <label htmlFor="pageSize" className="text-xs text-muted-foreground ml-1 sm:ml-2">Rows</label>
-                        <select
-                          id="pageSize"
-                          className="px-2 py-1 rounded border text-xs"
-                          value={demoPageSize}
-                          onChange={(e) => {
-                            const next = Number(e.target.value);
-                            setDemoPageSize(next);
-                            setDemoPage(1);
-                          }}
-                        >
-                          <option value={10}>10</option>
-                          <option value={20}>20</option>
-                          <option value={50}>50</option>
-                        </select>
+                        <span className="inline-flex items-center gap-1 ml-1 sm:ml-2 whitespace-nowrap shrink-0">
+                          <label htmlFor="pageSize" className="text-xs text-muted-foreground">Rows</label>
+                          <select
+                            id="pageSize"
+                            className="h-8 px-2 rounded border text-xs w-[72px]"
+                            value={demoPageSize}
+                            onChange={(e) => {
+                              const next = Number(e.target.value);
+                              setDemoPageSize(next);
+                              setDemoPage(1);
+                            }}
+                          >
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                            <option value={50}>50</option>
+                          </select>
+                        </span>
                       </>
                     );
                   })()}
