@@ -37,5 +37,5 @@ Excel upload
 Required columns (case sensitive): `STUDENTID`, `INDEXNO`, `NAME`, `CWA`.
 - STUDENTID: 8 digits
 - INDEXNO: 7 digits
-- NAME: e.g., `MENSAH, Ama (Miss)`, `NKRUAMH, Kwame`
+- NAME: e.g., `MENSAH, Ama (Miss)`, `NKRUMAH, Kwame`
 - CWA: 0–100 (two decimals)
