@@ -19,13 +19,6 @@ npm run dev
 # open http://localhost:3000
 ```
 
-Build
------
-```bash
-npm run build
-npm run dev
-```
-
 How it works
 ------------
 - Students are sorted by CWA descending.
