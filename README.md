@@ -1,6 +1,6 @@
 A Mentorium thingamajig.
 ===========================
-The bidirectional, score-based round-robin algorithm.
+The bidirectional, score-based round-robin algorithm that powers Mentorium.
 
 
 Features
