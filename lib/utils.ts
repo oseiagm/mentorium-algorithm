@@ -134,6 +134,20 @@ function randomFemaleName(seed: number) {
 
 // Note: randomName kept previously is unused; removed to satisfy lint rules.
 
+function sampleTruncatedNormal(mean: number, stdDev: number, min: number, max: number): number {
+  const safeStd = stdDev > 0 ? stdDev : 1
+  for (let i = 0; i < 64; i++) {
+    // Box-Muller transform
+    const u1 = Math.random()
+    const u2 = Math.random()
+    const z = Math.sqrt(-2 * Math.log(Math.max(u1, 1e-12))) * Math.cos(2 * Math.PI * u2)
+    const val = mean + safeStd * z
+    if (val >= min && val <= max) return val
+  }
+  // Fallback to clamped mean if rejection fails
+  return Math.min(max, Math.max(min, mean))
+}
+
 export function generateDemoStudents(count = 36): Student[] {
   const students: Student[] = []
   const numFemales = Math.floor(count / 2)
@@ -158,7 +172,7 @@ export function generateDemoStudents(count = 36): Student[] {
     const studentId = String(10000000 + i)
     const indexNo = String(2000000 + i)
     const name = pool[i % pool.length].name
-    const cwa = Number((50 + Math.random() * 50).toFixed(2))
+    const cwa = Number(sampleTruncatedNormal(67, 7, 0, 90).toFixed(2))
     students.push({ studentId, indexNo, name, cwa })
   }
   return students
