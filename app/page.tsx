@@ -26,6 +26,7 @@ export default function Home() {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [editingCwa, setEditingCwa] = useState<Record<string, string>>({});
+  const [uploadedStudents, setUploadedStudents] = useState<Student[] | null>(null);
 
   const maxLecturers: number | null = students.length > 0 ? students.length : null;
 
@@ -42,7 +43,8 @@ export default function Home() {
       setEditingCwa({});
       setResult(null);
     } else {
-      // Preserve previously uploaded data when switching back to upload mode
+      // When switching to upload mode, restore last uploaded dataset if available; otherwise empty
+      setStudents(uploadedStudents ?? []);
       setEditingCwa({});
       setResult(null);
     }
@@ -97,6 +99,7 @@ export default function Home() {
     try {
       const parsed: ParseResult = await parseStudentsFromFile(file);
       setStudents(parsed.students);
+      setUploadedStudents(parsed.students);
       setUploadErrors(parsed.errors);
       setSelectedFileName(file.name);
       setStep("preview");
@@ -324,7 +327,7 @@ export default function Home() {
               {selectedFileName && (
                 <div className="mt-3 text-xs">
                   <span className="px-2 py-1 rounded border bg-background">{selectedFileName}</span>
-                  <button className="ml-2 underline" onClick={() => { setSelectedFileName(null); setStudents([]); setUploadErrors([]); }}>
+                  <button className="ml-2 underline" onClick={() => { setSelectedFileName(null); setStudents([]); setUploadedStudents(null); setUploadErrors([]); }}>
                     Remove
                   </button>
                 </div>
