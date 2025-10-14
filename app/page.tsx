@@ -42,7 +42,7 @@ export default function Home() {
       setEditingCwa({});
       setResult(null);
     } else {
-      setStudents([]);
+      // Preserve previously uploaded data when switching back to upload mode
       setEditingCwa({});
       setResult(null);
     }
