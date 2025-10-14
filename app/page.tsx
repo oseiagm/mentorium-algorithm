@@ -9,7 +9,7 @@ import {
   generateDemoStudents,
   getMentorStats,
 } from "@/lib/utils";
-import { downloadTemplate, parseStudentsFromFile, type ParseResult } from "@/lib/excel";
+import { downloadTemplate, parseStudentsFromFile, type ParseResult, exportResultsToExcel, exportResultsToPDF } from "@/lib/excel";
 
 type Mode = "demo" | "upload";
 type Step = "setup" | "preview" | "results";
@@ -414,6 +414,20 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">Pairing Results</div>
               <div className="flex items-center gap-2">
+                <button 
+                  className="px-3 py-2 rounded border hover:bg-muted text-sm"
+                  onClick={() => exportResultsToExcel(result)}
+                  title="Export to Excel"
+                >
+                  📊 Excel
+                </button>
+                <button 
+                  className="px-3 py-2 rounded border hover:bg-muted text-sm"
+                  onClick={() => exportResultsToPDF(result)}
+                  title="Export to PDF"
+                >
+                  📄 PDF
+                </button>
                 <button className="px-3 py-2 rounded border hover:bg-muted" onClick={() => setStep("setup")}>
                   ← Back to setup
                 </button>
