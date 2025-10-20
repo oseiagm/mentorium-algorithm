@@ -1,6 +1,6 @@
 A Mentorium thingamajig.
 ===========================
-The bidirectional, score-based round-robin algorithm that powers Mentorium, the academic mentorship management platform.
+The bidirectional, score-based round-robin pairing algorithm that powers Mentorium, the academic mentorship management platform.
 
 
 Features
